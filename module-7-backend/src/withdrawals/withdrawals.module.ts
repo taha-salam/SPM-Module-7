@@ -1,0 +1,12 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { WithdrawalsController } from './withdrawals.controller';
+import { WithdrawalsService } from './withdrawals.service';
+import { Withdrawal } from './withdrawal.entity';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([Withdrawal])],
+  controllers: [WithdrawalsController],
+  providers: [WithdrawalsService],
+})
+export class WithdrawalsModule {}
