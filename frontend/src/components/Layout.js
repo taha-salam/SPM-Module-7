@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ROLES } from '@/lib/session';
@@ -9,6 +9,11 @@ export default function Layout({ children }) {
   const pathname = usePathname();
   const [searchVal, setSearchVal] = useState('');
   const { role, userId, update } = useSession();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const basePath =
     role === ROLES.admin ? '/admin' : role === ROLES.client ? '/client' : '/dashboard';
@@ -148,7 +153,7 @@ export default function Layout({ children }) {
         }}>
           <nav style={{ flexGrow: 1 }}>
             <p style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', fontFamily: 'Manrope, sans-serif', color: '#94a3b8', padding: '0 12px', marginBottom: 16 }}>Navigation</p>
-            {navLinks.map(link => {
+            {mounted && navLinks.map(link => {
               const isActive =
                 pathname === link.href || pathname.startsWith(`${link.href}/`);
               return (
